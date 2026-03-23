@@ -104,7 +104,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
           <div style={{ width: '20px', height: '4px', background: '#a8c282', borderRadius: '2px', marginLeft: '0px' }} />
         </div>
         <span style={{ fontWeight: 700, fontSize: '24px', color: '#283417', letterSpacing: '-0.5px' }}>
-          Strata
+          Strata Note
         </span>
       </div>
 
@@ -115,7 +115,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
 
       {/* フッター */}
       <p className="mt-6 text-xs text-gray-400">
-        Strata Ver.1 　©2026 ABC LLC. All rights reserved.
+        Strata Note Ver.1 　©2026 ABC LLC. All rights reserved.
       </p>
     </div>
   )

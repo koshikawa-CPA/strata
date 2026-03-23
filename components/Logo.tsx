@@ -14,7 +14,7 @@ export default function Logo() {
         </div>
       </div>
       <span style={{ fontWeight: 700, fontSize: '20px', color: '#283417', letterSpacing: '-0.5px' }}>
-        Strata
+        Strata Note
       </span>
     </div>
   )

@@ -9,7 +9,7 @@ const notoSansJP = Noto_Sans_JP({
 })
 
 export const metadata: Metadata = {
-  title: 'Strata',
+  title: 'Strata Note',
   description: '3-layer tab structured note app',
 }
 

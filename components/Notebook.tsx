@@ -244,7 +244,7 @@ export default function NotebookApp() {
             className="text-center text-xs text-gray-400 py-1 select-none"
             style={{ borderTop: '1px solid #6b8a3a' }}
           >
-            Strata Ver.1 　©2026 ABC LLC. All rights reserved.
+            Strata Note Ver.1 　©2026 ABC LLC. All rights reserved.
           </div>
         </div>
       </div>
