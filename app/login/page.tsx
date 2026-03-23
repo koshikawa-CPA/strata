@@ -16,13 +16,22 @@ export default function LoginPage() {
     setError(null)
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      console.log('[Login] signInWithPassword 開始')
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) {
+        console.error('[Login] 認証エラー:', error.message)
         setError(translateError(error.message))
-      } else {
-        router.push('/')
-        router.refresh()
+        return
       }
+      console.log('[Login] 認証成功 user:', data.user?.email, 'session:', !!data.session)
+
+      // セッションが Cookie に書き込まれるのを待つ
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log('[Login] getSession 確認:', !!session)
+
+      // router.refresh() でサーバーコンポーネントのキャッシュをクリアしてから遷移
+      router.refresh()
+      router.push('/')
     } finally {
       setLoading(false)
     }

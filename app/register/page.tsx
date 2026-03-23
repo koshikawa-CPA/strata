@@ -28,16 +28,20 @@ export default function RegisterPage() {
 
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signUp({ email, password })
+      console.log('[Register] signUp 開始')
+      const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) {
+        console.error('[Register] 登録エラー:', error.message)
         setError(translateError(error.message))
       } else {
+        console.log('[Register] 登録完了 user:', data.user?.email, 'session:', !!data.session)
         // メール確認が不要な設定の場合はそのままリダイレクト
         // メール確認が必要な場合はメッセージを表示
         const { data: { session } } = await supabase.auth.getSession()
+        console.log('[Register] getSession 確認:', !!session)
         if (session) {
-          router.push('/')
           router.refresh()
+          router.push('/')
         } else {
           setSuccess(true)
         }
