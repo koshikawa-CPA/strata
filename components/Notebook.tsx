@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { Notebook as NotebookType, Section, Page, Block } from '@/lib/types'
 import { loadNotebook, saveNotebook, createSection, createPage, createSheet } from '@/lib/store'
 import Logo from './Logo'
@@ -7,10 +8,24 @@ import SectionTabs from './SectionTabs'
 import PageTabs from './PageTabs'
 import SheetTabs from './SheetTabs'
 import BlockContainer from './BlockContainer'
+import { supabase } from '@/lib/supabase'
 
 export default function NotebookApp() {
+  const router = useRouter()
   const [notebook, setNotebook] = useState<NotebookType | null>(null)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUserEmail(session?.user?.email ?? null)
+    })
+  }, [])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    router.push('/login')
+  }
 
   useEffect(() => {
     setNotebook(loadNotebook())
@@ -138,7 +153,20 @@ export default function NotebookApp() {
         style={{ background: 'linear-gradient(135deg, #f4f6ef 0%, #edf1e5 100%)', minHeight: '48px' }}
       >
         <Logo />
-        <div className="ml-auto text-xs text-gray-400">自動保存</div>
+        <div className="ml-auto flex items-center gap-3">
+          <span className="text-xs text-gray-400">自動保存</span>
+          {userEmail && (
+            <>
+              <span className="text-xs text-gray-500 hidden sm:inline">{userEmail}</span>
+              <button
+                onClick={handleLogout}
+                className="text-xs text-[#556B2F] hover:text-[#435626] border border-[#6b8a3a] hover:border-[#435626] rounded px-2 py-1 transition-colors"
+              >
+                ログアウト
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Section tabs (layer 1) */}
